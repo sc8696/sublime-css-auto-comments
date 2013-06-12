@@ -1,4 +1,5 @@
 import sublime, sublime_plugin
+import re
 
 class CssautocommentsCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
@@ -6,43 +7,153 @@ class CssautocommentsCommand(sublime_plugin.TextCommand):
 		# get the nearest css property
 		cssProp = self.findCss()
 
-		# enter edit mode
-		self.editMode(edit, cssProp)
+		if(cssProp != None):
+			# enter edit mode
+			self.editMode(edit, cssProp)
 
 	def getCursor(self):
 		cursorReg = self.view.sel()[0]
 		return cursorReg
 
 	def findCss(self):
-		cssProp = self.view.substr(self.view.find(".*\{", self.getCursor().begin()))
-		cssName = cssProp = cssProp[:-1].strip()
-		cssType = ''
+		regex = self.view.find(".*?(\n*\s*)\{", self.getCursor().begin());
 
-		if (cssProp[0] == '.'):
-			cssType = 'class'
-			cssName = cssProp[1:]
-		elif (cssProp[0] == '#'):
-			cssType = 'id'
-			cssName = cssProp[1:]
-		else:
-			cssType = 'element'	
+		if(regex != None):
 
-		relatedCss = self.findRelatedCss(cssProp)
+			cssProp = self.view.substr(regex)
 
-		return {
-			'name' : cssName,
-			'type' : cssType,
-			'related' : relatedCss
-		}
+			cssName = cssProp = cssProp[:-1].strip()
+			cssType = ''
+
+			if (cssProp[0] == '.'):
+				cssType = 'class'
+				cssName = cssProp[1:]
+			elif (cssProp[0] == '#'):
+				cssType = 'id'
+				cssName = cssProp[1:]
+			else:
+				cssType = 'element'	
+
+			relatedCss = self.findRelatedCss(cssProp)
+			relatedSass = self.findNestedCss(cssProp)
+
+			# Combine all lists and remove dupes
+			relatedCss = relatedCss + list(set(relatedSass) - set(relatedCss))
+			relatedCss = filter(None, relatedCss)
+
+			return {
+				'name' : cssName,
+				'type' : cssType,
+				'related' : relatedCss
+			}
+
+		return None
 
 	def findRelatedCss(self, cssProp):
-		relatedCss = self.view.find_all(cssProp + "(\.|\:).+\{")
+		relatedCss = self.view.find_all(str(cssProp) + "(\.|\:)?.*(\n*\s*)\{")
 		
 		for i in range(0,len(relatedCss)):
 			relatedCss[i] = self.view.substr(relatedCss[i])[len(cssProp):-1].strip()
 
-		print relatedCss
+		print relatedCss[i]
+
 		return relatedCss
+
+	def findNestedCss(self, cssProp):
+		relatedCss = self.view.find_all(cssProp + "(\.|\:)?.*(\n*\s*)\{")
+
+		nestedCss = []
+		
+		
+		recurseLimit = 100
+
+		for i in range(0, len(relatedCss)):
+
+			cssBlock = ""
+
+			linelen = 0
+			offset = 0
+			bracketStack = []
+			recurseAmount = 0
+
+			point = relatedCss[i].begin()
+
+			line = self.getLineContents(self.view.line(point).begin())
+
+		# Start with somethign on the bracket stack
+			bracketStack.append('{')
+
+		# Start building the CSS block to parse
+			cssBlock += line.replace(" ","")
+
+		#This is for keeping track of what line its on
+			linelen = len(line)
+			offset = offset + linelen + 1
+
+			# Keep going when the brackets are unmatched
+			while len(bracketStack) > 0 and recurseAmount < recurseLimit:		
+
+			# Stack operations
+				if recurseAmount == 0:
+					negateBrackets = -1
+				else:
+					negateBrackets = 0
+
+				for j in range (0,line.count('{') + negateBrackets):
+					bracketStack.append('{')
+				for j in range (0,line.count('}')):	
+					bracketStack.pop()
+
+				recurseAmount+=1
+
+			# weird way of getting the next line. Start where the cursor began
+			# and keep adding on the cumulative length of the next line and recurse
+				line = self.getLineContents(self.view.line(point).begin() + offset)
+				cssBlock += line.replace(" ","")
+				linelen = len(line) + 1
+				offset = offset + linelen
+
+				if recurseAmount == 99:
+					print "Recursion limit hit. Check your brackets are evenly matched for element " + self.view.substr(relatedCss[i])[:-1]
+
+
+		bracketCount = 0
+		fullClass = ""
+		hookFound = True
+		hookedClass = True
+		# Go through the concatted css block to find stuff
+		# Could probably do this in the while loop up there ^^^
+		for j in range (0, len(cssBlock)):
+			print bracketCount
+			if cssBlock[j] == "{":
+				bracketCount+=1
+
+				if hookFound == False:
+					hookedClass = False
+
+				hookFound = False
+
+			if cssBlock[j] == "}":
+				bracketCount-=1
+
+			if cssBlock[j] == "&":
+				hookFound =  True
+				if hookedClass:
+					tempString = cssBlock[j+1:]
+					if bracketCount == 1:
+						fullClass = tempString.partition('{')[0]
+					else:
+						print tempString
+						fullClass = fullClass + tempString.partition('{')[0]
+
+					hookedClass = False
+
+					nestedCss.append(fullClass)
+
+		return nestedCss
+
+	def getLineContents(self, line):
+		return self.view.substr(self.view.line(line))
 
 
 	def editMode(self, edit, cssAttr):
@@ -69,9 +180,8 @@ class CssautocommentsCommand(sublime_plugin.TextCommand):
 		self.view.insert(edit, self.getCursor().begin(), '  * @description Style for the ' + cssName + ' ' + cssType + '\n')
 
 		for i in range(0, len(relatedCss)):
-			self.view.insert(edit, self.getCursor().begin(), '  * @state ' + relatedCss[i] + ' - ' + relatedCss[i][1:] + ' state\n')
+			self.view.insert(edit, self.getCursor().begin(), '  * @state ' + relatedCss[i] + ' - ' + relatedCss[i].replace("."," ").replace(":"," ")[1:] + ' state\n')
 
 		self.view.insert(edit, self.getCursor().begin(), '  * @markup\n')
 		self.view.insert(edit, self.getCursor().begin(), '  *   ' + markup + '\n')
 		self.view.insert(edit, self.getCursor().begin(), '  */\n')
-
