@@ -1,7 +1,7 @@
 Sublime Automatic CSS comments
 =========================
 
-Using automatic styleguide generation like DSS or KSS is all well and good, but typing those comments is a pain!
+Using automatic styleguide generation like <a href="https://github.com/darcyclarke/DSS/" title="DSS">DSS</a> or KSS is all well and good, but typing those comments is a pain!
 
 This sublime plugin will try and figure out all that stuff for you and comment whatever CSS blocks you want. 
 
@@ -16,15 +16,21 @@ Say you have some masterful CSS like this
 
 <pre>
 button{
-  background: red;
+  background: #006dcc;
+  font-size: 18px;
+  color: #eee;
+  border: 1px solid rgba(0,0,0,0.5);
+  border-radius: 3px;
+  padding: 10px;
+  box-shadow: -3px -21px 21px -9px rgba(0,0,0,0.4) inset;
 }
-
 button.active{
-	background: green;
+  background: maroon;
 }
 
 button:disabled{
-	background: grey;
+  background: #aaa;
+  color: #777;
 }
 </pre>
 
@@ -33,15 +39,21 @@ Just do this
 <pre>
 ///[tab]
 button{
-  background: red;
+  background: #006dcc;
+  font-size: 18px;
+  color: #eee;
+  border: 1px solid rgba(0,0,0,0.5);
+  border-radius: 3px;
+  padding: 10px;
+  box-shadow: -3px -21px 21px -9px rgba(0,0,0,0.4) inset;
 }
-
 button.active{
-  background: green;
+  background: maroon;
 }
 
 button:disabled{
-	background: grey;
+  background: #aaa;
+  color: #777;
 }
 </pre>
 
@@ -59,15 +71,21 @@ And magically!
   */
 
 button{
-  background: red;
+  background: #006dcc;
+  font-size: 18px;
+  color: #eee;
+  border: 1px solid rgba(0,0,0,0.5);
+  border-radius: 3px;
+  padding: 10px;
+  box-shadow: -3px -21px 21px -9px rgba(0,0,0,0.4) inset;
 }
-
 button.active{
-  background: green;
+  background: maroon;
 }
 
 button:disabled{
-	background: grey;
+  background: #aaa;
+  color: #777;
 }
 </pre>
 
@@ -89,13 +107,27 @@ It will also work with nested SCSS/LESS structures
   */
 
 button{
-    background: red;
-    
-    &.active{
-        background: green;
-    }
-    &:disabled{
-        background: grey;
-    }
+  background: #006dcc;
+  font-size: 18px;
+  color: #eee;
+  border: 1px solid rgba(0,0,0,0.5);
+  border-radius: 3px;
+  padding: 10px;
+  box-shadow: -3px -21px 21px -9px rgba(0,0,0,0.4) inset;
+
+  &.active{
+    background: maroon;
+  }
+
+  &:disabled{
+    background: #aaa;
+    color: #777;
+  }
 }
 </pre>
+
+
+And then run your <a href="https://github.com/darcyclarke/DSS/" title="DSS">DSS</a> builder and out pops some pretty, effortless styleguides!
+
+e.g.
+<img src="http://i.imgur.com/iNSNJsc.png" title="DSS example"/>
