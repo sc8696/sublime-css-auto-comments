@@ -17,7 +17,7 @@ You'll have to install this manually right now. Just download this repositry and
 
 Say you have some masterful CSS like this
 
-<pre>
+```css
 button{
   background: #006dcc;
   font-size: 18px;
@@ -35,11 +35,11 @@ button:disabled{
   background: #aaa;
   color: #777;
 }
-</pre>
+````
 
 Just do this
 
-<pre>
+```css
 ///[tab]
 button{
   background: #006dcc;
@@ -58,12 +58,12 @@ button:disabled{
   background: #aaa;
   color: #777;
 }
-</pre>
+````
 
 And magically!
 
-<pre>
 
+```css
 /**
   * @name Button
   * @description Style for the button element
@@ -90,7 +90,7 @@ button:disabled{
   background: #aaa;
   color: #777;
 }
-</pre>
+````
 
 Woo!
 
@@ -98,8 +98,7 @@ Now you can spend less time commenting your stylesheets and more time... writing
 
 It will also work with nested SCSS/LESS structures
 
-<pre>
-
+```scss
 /**
   * @name Button
   * @description Style for the button element
@@ -127,7 +126,7 @@ button{
     color: #777;
   }
 }
-</pre>
+````
 
 
 And then run your <a href="https://github.com/darcyclarke/DSS/" title="DSS">DSS</a> builder and out pops some pretty, effortless styleguides!
