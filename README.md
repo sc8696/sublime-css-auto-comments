@@ -13,7 +13,7 @@ a guess at a suggested markup.
 <h2>Install</h2>
 You'll have to install this manually right now. Just download this repositry and dump the folder in the Sublime Packages folder
 
-<h3>Example</h3>
+<h2>Example</h2>
 
 Say you have some masterful CSS like this
 
