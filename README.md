@@ -52,7 +52,7 @@ And magically!
   * @name Button
   * @description Style for the button element
   * @state .active - active state
-  * @state :disabled - disabled state;
+  * @state :disabled - disabled state
   * @markup
   *   &lt;button&gt;markup&lt;/button&gt;
   */
