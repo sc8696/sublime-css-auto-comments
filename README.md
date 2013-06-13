@@ -70,7 +70,7 @@ And magically!
   * @state .active - active state
   * @state :disabled - disabled state
   * @markup
-  *   &lt;button&gt;markup&lt;/button&gt;
+  *   <button>markup</button>
   */
 
 button{
@@ -105,7 +105,7 @@ It will also work with nested SCSS/LESS structures
   * @state .active - active state
   * @state :disabled - disabled state
   * @markup
-  *   &lt;button&gt;Markup&lt;/button&gt;
+  *   <button>Markup</button>
   */
 
 button{
