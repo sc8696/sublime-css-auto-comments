@@ -3,11 +3,12 @@ Sublime Automatic CSS comments
 
 Using automatic styleguide generation like DSS or KSS is all well and good, but typing those comments is a pain!
 
-This sublime plugin will try and figure out all that stuff for you and comment whatever CSS blocks you want.
+This sublime plugin will try and figure out all that stuff for you and comment whatever CSS blocks you want. 
 
 <h2>How?</h2>
 Just type <code>///</code> followed by <kbd>tab</kbd> directly above the CSS section you want commenting and boom! Done.<br/>
-It will also check the rest of your CSS file for related states or attributes and add them as states in the comments too
+It will also check the rest of your CSS/SCSS/LESS file for related states or attributes and add them as states in the comments too, plus it will give
+a guess at a suggested markup.
 
 <h3>Example</h3>
 
@@ -73,3 +74,28 @@ button:disabled{
 Woo!
 
 Now you can spend less time commenting your stylesheets and more time... writing your stylesheets.
+
+It will also work with nested SCSS/LESS structures
+
+<pre>
+
+/**
+  * @name Button
+  * @description Style for the button element
+  * @state .active - active state
+  * @state :disabled - disabled state
+  * @markup
+  *   <button>Markup</button>
+  */
+
+button{
+    background: red;
+    
+    &.active{
+        background: green;
+    }
+    &:disabled{
+        background: red;
+    }
+}
+</pre>
