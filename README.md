@@ -95,7 +95,7 @@ button{
         background: green;
     }
     &:disabled{
-        background: red;
+        background: grey;
     }
 }
 </pre>
