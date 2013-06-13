@@ -101,9 +101,6 @@ class CssautocommentsCommand(sublime_plugin.TextCommand):
 			# Keep going when the brackets are unmatched
 			while len(bracketStack) > 0 and recurseAmount < recurseLimit:		
 
-				print bracketStack
-				print recurseAmount
-
 				# Stack operations
 				for j in range (0,line.count('{')):
 					if firstBracketFound:
