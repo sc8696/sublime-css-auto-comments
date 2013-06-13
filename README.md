@@ -10,6 +10,9 @@ Just type <code>///</code> followed by <kbd>tab</kbd> directly above the CSS sec
 It will also check the rest of your CSS/SCSS/LESS file for related states or attributes and add them as states in the comments too, plus it will give
 a guess at a suggested markup.
 
+<h2>Install</h2>
+You'll have to install this manually right now. Just download this repositry and dump the folder in the Sublime Packages folder
+
 <h3>Example</h3>
 
 Say you have some masterful CSS like this
