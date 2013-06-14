@@ -1,5 +1,20 @@
 [  
     {   
-        "keys": ["/", "/", "/", "tab"], "command": "cssautocomments"   
-    }  
+        "keys": ["/", "/", "/", "tab"], "command": "cssautocomments", "context":
+        [
+            {"key":"selector","operator":"equal","operand":"source.sass"}
+        ]
+    },
+    {   
+        "keys": ["/", "/", "/", "tab"], "command": "cssautocomments", "context":
+        [
+        	{"key":"selector","operator":"equal","operand":"source.css"}
+        ]
+    },
+    {   
+        "keys": ["/", "/", "/", "tab"], "command": "cssautocomments", "context":
+        [
+        	{"key":"selector","operator":"equal","operand":"source.less"}
+        ]
+    }
 ]  
