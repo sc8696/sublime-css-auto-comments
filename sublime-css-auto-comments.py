@@ -60,7 +60,7 @@ class CssautocommentsCommand(sublime_plugin.TextCommand):
 		return None
 
 	def findRelatedCss(self, cssProp):
-		relatedCss = self.view.find_all(str(cssProp) + "(\.|\:)?.*(\n*\s*)\{")
+		relatedCss = self.view.find_all(str(cssProp) + "(\.|\:)+.*(\n*\s*)\{")
 		
 		for i in range(0,len(relatedCss)):
 			relatedCss[i] = self.view.substr(relatedCss[i])[len(cssProp):-1].strip()
@@ -68,7 +68,7 @@ class CssautocommentsCommand(sublime_plugin.TextCommand):
 		return relatedCss
 
 	def findNestedCss(self, cssProp):
-		relatedCss = self.view.find_all(cssProp + "(\.|\:)?.*(\n*\s*)\{")
+		relatedCss = self.view.find_all(cssProp + "(\.|\:)+.*(\n*\s*)\{")
 
 		nestedCss = []
 		
