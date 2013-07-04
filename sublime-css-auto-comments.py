@@ -48,7 +48,7 @@ class CssautocommentsCommand(sublime_plugin.TextCommand):
 			# Remove dupes whilst preserving order
 			relatedCss = [x for i,x in enumerate(relatedCss) if i==relatedCss.index(x)]
 			#Remove empty elements
-			relatedCss = filter(None, relatedCss)
+			relatedCss = list(filter(None, relatedCss))
 
 			return {
 				'name' : cssName,
@@ -68,7 +68,7 @@ class CssautocommentsCommand(sublime_plugin.TextCommand):
 		return relatedCss
 
 	def findNestedCss(self, cssProp):
-		relatedCss = self.view.find_all(cssProp + "(\.|\:)+.*(\n*\s*)\{")
+		relatedCss = self.view.find_all(cssProp + "(\.|\:)?.*(\n*\s*)\{")
 
 		nestedCss = []
 		
@@ -123,7 +123,7 @@ class CssautocommentsCommand(sublime_plugin.TextCommand):
 				offset = offset + linelen
 
 				if recurseAmount == 99:
-					print "Recursion limit hit. Check your brackets are evenly matched for element " + self.view.substr(relatedCss[i])[:-1]
+					print('Recursion limit hit. Check your brackets are evenly matched for element ' + self.view.substr(relatedCss[i])[:-1])
 
 			bracketCount = 0
 			fullClass = ""
