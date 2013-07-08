@@ -8,6 +8,12 @@
     {   
         "keys": ["/", "/", "/", "tab"], "command": "cssautocomments", "context":
         [
+            {"key":"selector","operator":"equal","operand":"source.scss"}
+        ]
+    },
+    {   
+        "keys": ["/", "/", "/", "tab"], "command": "cssautocomments", "context":
+        [
         	{"key":"selector","operator":"equal","operand":"source.css"}
         ]
     },
