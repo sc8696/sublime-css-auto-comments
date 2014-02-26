@@ -13,7 +13,7 @@ a guess at a suggested markup.
 <h2>Install</h2>
 <h3>Package Manager</h3>
 Press <kbd>Ctrl + Shift + P</kbd> (<kbd>Cmd + Shift + P</kbd> on OSX) and search "install"<br/>
-Then Search for 'CSS comments' in the Sublime package manager and select it
+Then Search for 'CSS Auto Commenting' in the Sublime package manager and select it
 
 <h3>Manual</h3>
 Just download this repositry and dump the folder in the Sublime Packages folder
